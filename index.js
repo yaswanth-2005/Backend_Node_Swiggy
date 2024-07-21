@@ -26,7 +26,7 @@ mongoose.connect(process.env.MONGO_URI)
     .catch((error) => console.log(error))
 
 
-app.use('/home', (req, res) => {
+app.use('/', (req, res) => {
     res.send("<h1>Welcome to Yaswanth");
 })
 
