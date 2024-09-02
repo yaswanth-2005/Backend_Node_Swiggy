@@ -35,22 +35,22 @@ const vendorRegister = async (req, res) => {
 const vendorLogin = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const vendor = await Vendor.findOne({ email })
+        const vendor = await Vendor.findOne({ email });
         if (!vendor || !(await bcrypt.compare(password, vendor.password))) {
-            return res.status(401).json({ error: "Invalid user credentials.." })
+            return res.status(401).json({ error: "Invalid username or password" })
         }
-
         const token = jwt.sign({ vendorId: vendor._id }, secretKey, { expiresIn: "1h" })
 
-        res.status(200).json({ success: "Login Successfull..", token })
-        console.log(email, "This is Token:", token);
+        const vendorId = vendor._id;
 
+        res.status(200).json({ success: "Login successful", token, vendorId })
+        console.log(email, "this is token", token);
     } catch (error) {
-        console.log(error)
-        res.status(500).json({ error: "Internal Sever Errors.." })
+        console.log(error);
+        res.status(500).json({ error: "Internal server error" });
     }
-}
 
+}
 const getAllVendors = async (req, res) => {
     try {
         const vendors = await Vendor.find().populate('firm');
