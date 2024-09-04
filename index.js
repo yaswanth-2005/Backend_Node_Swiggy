@@ -11,8 +11,14 @@ const path = require('path')
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+const corsOptions = {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204
+};
 
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(bp.json())
 app.use('/vendor', vendorRoutes)
 app.use('/firm', firmRoutes)
