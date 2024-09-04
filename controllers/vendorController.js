@@ -42,9 +42,10 @@ const vendorLogin = async (req, res) => {
         const token = jwt.sign({ vendorId: vendor._id }, secretKey, { expiresIn: "1h" })
 
         const vendorId = vendor._id;
-
-        res.status(200).json({ success: "Login successful", token, vendorId })
+        const username = vendor.username
+        res.status(200).json({ success: "Login successful", token, vendorId, username })
         console.log(email, "this is token", token);
+        // console.log(username)
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: "Internal server error" });
@@ -65,11 +66,17 @@ const getVendorById = async (req, res) => {
     const vendorId = req.params.apple;
     try {
         const vendor = await Vendor.findById(vendorId).populate('firm');
+        // console.log(vendor)
         if (!vendor) {
             return res.status(404).json({ message: "Vendor Not found.." })
         }
-
-        res.status(200).json({ vendor })
+        const vendorFirmId = vendor.firm[0]._id;
+        // if(!vendorFirmId) {
+        //     return res.status(404).json({message: "No Firm For this Vendor"})
+        // }
+        console.log(vendorFirmId)
+        res.status(200).json({ vendorId, vendorFirmId, vendor })
+        console.log(vendorFirmId);
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Internal server Errors.." })

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
     productName: {
@@ -12,23 +12,24 @@ const productSchema = new mongoose.Schema({
     category: {
         type: [{
             type: String,
-            enum: ["veg", "non-veg"]
+            enum: ['veg', 'non-veg']
         }]
     },
     image: {
         type: String
     },
-    bestseller: {
-        type: String
+    bestSeller: {
+        type: Boolean
     },
     description: {
         type: String
     },
     firm: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Firm"
+        ref: 'Firm'
     }]
-})
+});
 
-const Product = mongoose.model('Product', productSchema)
-module.exports = Product;
+const Product = mongoose.model('Product', productSchema);
+
+module.exports = Product
